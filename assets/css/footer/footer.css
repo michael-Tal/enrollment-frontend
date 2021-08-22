@@ -1,0 +1,17 @@
+.footer{
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    
+}
+
+.footer-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.footer-logo{
+    height: 130px;
+    width: 200px;   
+}

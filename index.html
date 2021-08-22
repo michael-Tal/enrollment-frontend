@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enrollment</title>
+</head>
+
+<body>
+    <header class="header">
+        <div class="header-logo-face-int header-img">
+            <img src="/assets/img/logo_all.png" />
+        </div>
+        <div class="header-nav"></div>
+        <div class="header-logo-sea-view header-img">
+            <img src="/assets/img/sea-view-logo.jpeg" />
+
+        </div>
+    </header>
+    <main class="main">
+        <h1>Registration</h1>
+        <form class="main-phone-number" onsubmit="onPhoneEnter(event)">
+            <!-- <h3>Please enter your phone number</h3> -->
+            <audio class="phone-enter-audio" src="./assets/sound/phone-enter.ogg"></audio>
+            <label class="phone-lable" for="phone">Please enter your phone number</label>
+            <input name="phoneNumber" class="phoneNumber" type="number" id="phone" placeholder="Enter phone number...">
+            <button class="phone-btn">press to get your code</button>
+            <!-- <button onclick="onPhoneEnter(ev, phoneNumber)">Get your code</button> -->
+        </form>
+        <form class="main-code-number" onsubmit="onCodeEnter(event)">
+            <!-- <h3>Please enter your phone number</h3> -->
+            <audio class="code-enter-audio" src="./assets/sound/code-enter.ogg"></audio>
+            <label class="code-lable" for="codeNumber">Please enter your code</label>
+            <input type="number" name="codeNumber" class="codeNumber" id="code" placeholder="Enter phone code...">
+            <button class="code-btn">press to submit</button>
+        </form>
+        <button class="start-enrollment" onclick="onStartEnrollmentProccess()">Start enrollment</button>
+        <div class="loader">
+            <div class="loader-wheel"></div>
+            <div class="loader-text"></div>
+        </div>
+        <div class="main-animation"></div>
+        <div class="status-modal"></div>
+    </main>
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-logo-natam footer-logo">
+                <img src="/assets/img/logo-natam.jpeg">
+            </div>
+            <!-- <div class="footer-logo-face-int footer-logo">
+                <img src="/assets/img/logo_all.png">
+            </div> -->
+        </div>
+    </footer>
+</body>
+
+<script src="./js/lib/axios.js"></script>
+<script type="module" src="/js/controller/main.js"></script>
+<!-- <script src="/js/lib/axios.js"></script>
+<script src="/js/service/storage-service.js"></script>
+<script src="/js/services/enrollment.service.js"></script>
+<script src="/js/controller/main.js"></script> -->
+
+</html>

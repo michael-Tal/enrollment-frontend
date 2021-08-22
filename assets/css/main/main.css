@@ -1,0 +1,56 @@
+.main{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+h1{
+    font-family: playfair,sarif;
+}
+
+.main-phone-number , .main-code-number{
+    display: flex;
+    flex-direction: column;
+    font-size: 30px; 
+}
+
+.main-phone-number>*:not(:last-child){
+    margin-block-end: 30px;
+}
+
+.main-code-number>*:not(:last-child){
+    margin-block-end: 30px;
+}
+
+.main-code-number{
+    display: none;
+}
+
+.start-enrollment{
+    display: none;
+}
+
+input{
+    height: 40px;
+    padding: 0px 20px;
+    border-radius: 2rem;
+    outline-style: none;
+    font-family: playfair,sarif;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button{
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.phone-btn,.code-btn{
+    font-family: playfair,sarif;
+    border-radius: 2rem;
+    font-size: 20px;
+    color: #505050;
+}
+.phone-btn:hover,.code-btn:hover{
+    color: #1b1b1b;
+    cursor: pointer;
+}

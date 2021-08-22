@@ -1,0 +1,53 @@
+.loader {
+    height: 40vh;
+    display: none;
+    flex-direction: column;
+    flex-wrap: wrap;
+    width: calc(100% - 120px);
+    align-items: center;
+    justify-content: center;
+}
+  
+.loader-wheel {
+    animation: spin 1.5s infinite linear;
+    border: 2px solid #3567da;
+    border-left: 4px solid #fff;
+    border-radius: 50%;
+    height: 50px;
+    margin-bottom: 10px;
+    width: 50px;
+}
+  
+.loader-text {
+    color:#3567da;
+    font-family: playfair, serif;
+}
+  
+.loader-text:after {
+    content: 'In proccess';
+    animation: load 2s linear infinite;
+}
+  
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+  
+@keyframes load {
+    0% {
+      content: 'In proccess';
+    }
+    33% {
+      content: 'In proccess.';
+    }
+    67% {
+      content: 'In proccess..';
+    }
+    100% {
+      content: 'In proccess...';
+    }
+}

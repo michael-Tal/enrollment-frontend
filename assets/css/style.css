@@ -1,0 +1,30 @@
+@import './fonts.css';
+@import './header/main-header.css';
+@import './main/main.css';
+@import './main/loading.css';
+@import './footer/footer.css';
+
+body {
+    margin: 0;
+    background-color: #fafafd;
+    position: relative;
+    height: 100vh;
+}
+
+img{
+    width: 100%;
+    height: 100%;
+}
+
+/* input{
+    height: 40px;
+    padding: 0px 20px;
+    border-radius: 2rem;
+    outline-style: none;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button{
+    -webkit-appearance: none;
+    margin: 0;
+} */
