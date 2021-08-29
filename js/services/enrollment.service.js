@@ -2,7 +2,9 @@ var gInterval;
 var count = 0;
 const HEADER = { 'Content-Type': 'application/json' }
 
-const base_url = 'https://api.face-int.com'
+// const base_url = 'https://api.face-int.com'
+const serverStatus = 'test'
+const base_url = serverStatus === 'production' ? '/api/' : 'https://api.face-int.com'
 
 export const enrollmentService = {
     getVerificationCode,
@@ -46,10 +48,17 @@ async function getEnrollmentStatus(userId, cb) {
     const prm = await axios.post(base_url + '/GetEnrollmentStatus', data, { headers: HEADER })
         .then(res => res.data)
         .then(ans => {
-            if (ans.status === 'Finish' || count > 3) {
-                ans.status = 'Finish'
-                clearInterval(gInterval)
-                cb(ans.status)
+            if (serverStatus === 'test') {
+                if (count > 3) {
+                    ans.status = 'Finish'
+                    clearInterval(gInterval)
+                    cb(ans.status)
+                }
+            } else {
+                if (ans.status = 'Finish') {
+                    clearInterval(gInterval)
+                    cb(ans.status)
+                }
             }
         })
         .catch(err => console.log(err))
