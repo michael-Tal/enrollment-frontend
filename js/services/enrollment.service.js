@@ -1,95 +1,65 @@
-import { storageService } from './storage-service.js'
-// import axios from '../lib/axios.js'
-import data from '../../data/users.js'
-var gUser = data.user
-const codeLength = 5
+var gInterval;
+var count = 0;
+const HEADER = { 'Content-Type': 'application/json' }
 
-const base_url = "https://api.face-int.com"
-
-
+const base_url = 'https://api.face-int.com'
 
 export const enrollmentService = {
     getVerificationCode,
     validateVerificationCode,
     startEnrollmentProccess,
+    getStatus,
+    closeEnrollmentApp
 }
 
 // this is the axios request need to be tested
 
-// function getVerificationCode(phoneNumber) {
-//     const data = {'phoneNumber':phoneNumber}
-//     const prm = axios.get(base_url + '/GetVerificationCode', data)
-//         .then(res => { res.data })
-//         .then(data => console.log(data))
-//     return prm;
-// }
-
-// function validateVerificationCode(codeNumber, phoneNumber) {
-//     const data = { 'codeNumber': codeNumber, 'phoneNumber': phoneNumber }
-//     const prm = axios.get(base_url + 'validateVerificationCode', data)
-//         .then(res => res.data)
-//     return prm;
-// }
-
-// function startEnrollmentProccess(userId, gateId, onSuccess) {
-//     const data = {'userId':userId, 'gateId': gateId}
-//     const prm = axios.get(base_url +'startEnrollmentProccess', data)
-//         .then(res => res.data)
-// }
-
-var count = 0
-
-
 function getVerificationCode(phoneNumber) {
-    var user = _getUserByPhone(phoneNumber)
-    if (user) {
-        return {
-            'userId': user.id,
-            'name': user.userName,
-        }
-    } else {
-        return 'Invalid phone number'
-    }
-}
-function validateVerificationCode(codeNumber, phoneNumber ) {
-    var user = _getUserByCode(codeNumber)
-    if (user) return 'success'
-    else return 'Incorrect Code'
+    const data = { 'phoneNumber': phoneNumber }
+    const prm = axios.post(base_url + '/GetVerificationCode', data, { headers: HEADER })
+        .then(res => res.data)
+        .catch(err => console.dir(err.stack))
+    return prm;
 }
 
-function startEnrollmentProccess(userId, gateId, onSuccess) {
-    console.log('userId: ' + userId)
-    console.log('gateId: ' + gateId)
-    if (userId) {
-        var intervalForPending = setInterval(() => {
-            count++
-            if (count > 3) {
-                clearInterval(intervalForPending)
-                CloseEnrollmentApp(gateId)
-                onSuccess('success')
-                // return 'success'
+async function validateVerificationCode(verificationCode, userId) {
+    const data = { 'userId': userId, 'verificationCode': verificationCode }
+    const prm = await axios.post(base_url + '/ValidateVerificationCode', data, { headers: HEADER })
+        .then(res => res.data)
+    return prm;
+}
+
+async function startEnrollmentProccess(userId, gateId) {
+    const data = { 'userId': userId, 'gateId': gateId }
+    const prm = await axios.post(base_url + '/StartEnrollmentProcess', data, { headers: HEADER })
+        .then(res => res.data)
+    return prm;
+}
+
+async function getStatus(userId, onSuccess) {
+    gInterval = await setInterval(getEnrollmentStatus, 1000, userId, onSuccess)
+}
+
+async function getEnrollmentStatus(userId, cb) {
+    count++
+    const data = { 'userId': userId }
+    const prm = await axios.post(base_url + '/GetEnrollmentStatus', data, { headers: HEADER })
+        .then(res => res.data)
+        .then(ans => {
+            if (ans.status === 'Finish' || count > 3) {
+                ans.status = 'Finish'
+                clearInterval(gInterval)
+                cb(ans.status)
             }
-            return 'pending'
-        }, 1000)
-    }
-    return intervalForPending
+        })
+        .catch(err => console.log(err))
+    return prm
 }
 
-function CloseEnrollmentApp(gateId) {
+async function closeEnrollmentApp(gateId) {
+    const data = { 'gateId': gateId }
     console.log('gata', gateId, 'is closing!')
+    const prm = await axios.post(base_url + '/CloseEnrollmentApp', data, { headers: HEADER })
+        .then(res => res.data)
+    return prm;
 }
-
-
-function _getUserByPhone(phoneNumber) {
-    var user = gUser.find((user) => {
-        return user.phoneNumber === phoneNumber
-    })
-    return user
-}
-function _getUserByCode(codeNumber) {
-    var user = gUser.find((user) => {
-        return user.verificationCode === codeNumber
-    })
-    return user
-}
-

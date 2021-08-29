@@ -22,11 +22,7 @@ h1{
     margin-block-end: 30px;
 }
 
-.main-code-number{
-    display: none;
-}
-
-.start-enrollment{
+.main-code-number,.start-enrollment-btn, .status-modal{
     display: none;
 }
 
@@ -44,7 +40,7 @@ input::-webkit-inner-spin-button{
     margin: 0;
 }
 
-.phone-btn,.code-btn{
+.phone-btn,.code-btn, .start-enrollment-btn{
     font-family: playfair,sarif;
     border-radius: 2rem;
     font-size: 20px;
@@ -53,4 +49,20 @@ input::-webkit-inner-spin-button{
 .phone-btn:hover,.code-btn:hover{
     color: #1b1b1b;
     cursor: pointer;
+}
+
+.main-animation{
+    font-family: playfair, sans-serif;
+    display: none;
+    flex-direction: column;
+    height: 180px;
+    align-items: center;
+}
+
+.main-animation img{
+    object-fit: contain;
+}
+
+.status-modal{
+    margin-block-start: 65px;
 }

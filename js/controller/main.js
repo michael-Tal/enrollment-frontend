@@ -1,5 +1,5 @@
-import {storageService} from '../services/storage-service.js'
-import {enrollmentService} from '../services/enrollment.service.js'
+import { storageService } from '../services/storage-service.js'
+import { enrollmentService } from '../services/enrollment.service.js'
 
 window.onload = onInit;
 window.onPhoneEnter = onPhoneEnter;
@@ -11,81 +11,84 @@ var gUserId;
 var gGateId;
 const KEY = 'gateId'
 
-export function onInit(){
-    show('main-phone-number') 
+export function onInit() {
+    show('main-phone-number')
     var gateId = storageService.loadFromStorage(KEY)
-    // var phoneAudio = new Audio('phone-enter.ogg')
-    // phoneAudio.play()
+    // var phoneAudio = new Audio('../../assets/sound/phone-enter.ogg')
+    const phoneAudio = document.querySelector('.phone-enter-audio')
     setTimeout(() => {
-        const phoneAudio = document.querySelector('.phone-enter-audio').play()
+        phoneAudio.play()
     }, 1000);
-    
+
     if (gateId) gGateId = gateId
     else gGateId = storageService.saveToStorage(KEY, 'a-1')
 }
 
-export function onPhoneEnter(ev){
+export async function onPhoneEnter(ev) {
     ev.preventDefault()
-    console.dir(ev)
     var phoneNumber = document.querySelector('.phoneNumber').value
-    var userVerifcationCode = enrollmentService.getVerificationCode(phoneNumber)
-    if (userVerifcationCode.userId){
+    var ans = await enrollmentService.getVerificationCode(phoneNumber)
+    if (ans?.userId) {
         document.querySelector('.phoneNumber').disabled = true
         document.querySelector('.phone-lable').innerText = 'phone number'
         document.querySelector('.phone-lable').style.fontSize = '20px'
         document.querySelector('.phone-btn').style.display = 'none'
         document.querySelector('.main-phone-number').style.display = 'block'
-        gUserId = userVerifcationCode.userId
+        gUserId = ans.userId
         gPhoneNumber = phoneNumber
         show('main-code-number')
         const codeAudio = document.querySelector('.code-enter-audio').play()
-        // var codeAudio = new Audio('phone-enter.ogg')
-        // phoneAudio.play()
     } else {
         //TODO: create a div with err massage for incorrect phone number
-        console.log(userVerifcationCode)
+        console.log("ans in error")
     }
 }
-export function onCodeEnter(ev){
+
+export async function onCodeEnter(ev) {
     ev.preventDefault()
     var codeNumber = +document.querySelector('.codeNumber').value
-    var ans = enrollmentService.validateVerificationCode(codeNumber, gPhoneNumber)
-    if (ans === 'success'){
+    var ans = await enrollmentService.validateVerificationCode(codeNumber, gUserId)
+    if (ans.verification) {
         document.querySelector('.codeNumber').disabled = true
         document.querySelector('.code-lable').innerText = 'code number'
         document.querySelector('.code-lable').style.fontSize = '20px'
         document.querySelector('.code-btn').style.display = 'none'
         document.querySelector('.main-code-number').style.display = 'block'
-        document.querySelector('.loader').style.display = 'flex'
-        //TODO: create a div with looding for inrollment massage
-
-    } else if (ans === 'Incorrect Code'){
+        document.querySelector('.start-enrollment-btn').style.display = 'flex'
+    } else{
         //TODO: create a div with err massage for incorrect phone code
-        console.log('faild')
-    } else {
-        console.log('pending')
+        console.log('Incorrect Code')
     }
 }
 
-export function onStartEnrollmentProccess(){
-    var status = enrollmentService.startEnrollmentProccess(gUserId, gGateId, renderSuccess)
+export async function onStartEnrollmentProccess() {
+    var ans = await enrollmentService.startEnrollmentProccess(gUserId, gGateId)
+    console.log(ans)// recive 'ok' if good
+    if (ans === 'ok'){
+        document.querySelector('.start-enrollment-btn').style.display = 'none'
+        document.querySelector('.main-animation').style.display = 'flex'
+        await enrollmentService.getStatus(gUserId,renderSuccess)
+    }
 }
 
-function renderSuccess(ans){
-    if (ans === 'success'){
+function renderSuccess(ans) {
+    if (ans === 'Finish') {
         console.log('success')
-        document.querySelector('.status-modal').innerText = 'Success'
+        document.querySelector('.main-animation').style.display = 'none'
+        // document.querySelector('.status-modal').innerText = 'Regisration success the app will automaticly closed thanks'
+        document.querySelector('.status-modal').style.display = 'block'
+        enrollmentService.closeEnrollmentApp(gGateId)
     } else {
         document.querySelector('.status-modal').innerText = 'pending'
     }
 }
 
 
-function show(elClass){
-    var el = document.querySelector('.'+elClass)
-    el.style.display = 'flex'  
+function show(elClass) {
+    var el = document.querySelector('.' + elClass)
+    el.style.display = 'flex'
 }
-function hide(elClass){
-    var el = document.querySelector('.'+elClass)
-    el.style.display = 'none'  
+function hide(elClass) {
+    var el = document.querySelector('.' + elClass)
+    el.style.display = 'none'
 }

@@ -1,7 +1,8 @@
 @import './fonts.css';
 @import './header/main-header.css';
 @import './main/main.css';
-@import './main/loading.css';
+/* @import './main/loading.css'; */
+@import './main/check-mark.css';
 @import './footer/footer.css';
 
 body {

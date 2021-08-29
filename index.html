@@ -23,7 +23,7 @@
         <h1>Registration</h1>
         <form class="main-phone-number" onsubmit="onPhoneEnter(event)">
             <!-- <h3>Please enter your phone number</h3> -->
-            <audio class="phone-enter-audio" src="./assets/sound/phone-enter.ogg"></audio>
+            <audio class="phone-enter-audio" src="./assets/sound/phone-enter.ogg" allow="autoplay"></audio>
             <label class="phone-lable" for="phone">Please enter your phone number</label>
             <input name="phoneNumber" class="phoneNumber" type="number" id="phone" placeholder="Enter phone number...">
             <button class="phone-btn">press to get your code</button>
@@ -36,31 +36,36 @@
             <input type="number" name="codeNumber" class="codeNumber" id="code" placeholder="Enter phone code...">
             <button class="code-btn">press to submit</button>
         </form>
-        <button class="start-enrollment" onclick="onStartEnrollmentProccess()">Start enrollment</button>
+        <button class="start-enrollment-btn" onclick="onStartEnrollmentProccess()">Start enrollment</button>
         <div class="loader">
             <div class="loader-wheel"></div>
             <div class="loader-text"></div>
         </div>
-        <div class="main-animation"></div>
-        <div class="status-modal"></div>
+        <div class="main-animation">
+            <h2>Please look to the camera near the door</h2>
+            <img src="./assets/img/real-sense.jpeg">
+        </div>
+        <div class="status-modal">
+            <div class="success-checkmark">
+                <div class="check-icon">
+                  <span class="icon-line line-tip"></span>
+                  <span class="icon-line line-long"></span>
+                  <div class="icon-circle"></div>
+                  <div class="icon-fix"></div>
+                </div>
+              </div>
+        </div>
     </main>
     <footer class="footer">
         <div class="footer-container">
             <div class="footer-logo-natam footer-logo">
                 <img src="/assets/img/logo-natam.jpeg">
             </div>
-            <!-- <div class="footer-logo-face-int footer-logo">
-                <img src="/assets/img/logo_all.png">
-            </div> -->
         </div>
     </footer>
 </body>
 
 <script src="./js/lib/axios.js"></script>
 <script type="module" src="/js/controller/main.js"></script>
-<!-- <script src="/js/lib/axios.js"></script>
-<script src="/js/service/storage-service.js"></script>
-<script src="/js/services/enrollment.service.js"></script>
-<script src="/js/controller/main.js"></script> -->
 
 </html>
