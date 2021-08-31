@@ -21,7 +21,10 @@ export function onInit() {
     }, 1000);
 
     if (gateId) gGateId = gateId
-    else gGateId = storageService.saveToStorage(KEY, 'a-1')
+    else {
+        gGateId = prompt('please enter Gate')
+        storageService.saveToStorage(KEY, gGateId)
+    }
 }
 
 export async function onPhoneEnter(ev) {
@@ -31,13 +34,13 @@ export async function onPhoneEnter(ev) {
     if (ans?.userId) {
         document.querySelector('.phoneNumber').disabled = true
         document.querySelector('.phone-lable').innerText = 'phone number'
-        document.querySelector('.phone-lable').style.fontSize = '20px'
+        document.querySelector('.phone-lable').style.fontSize = '30px'
         document.querySelector('.phone-btn').style.display = 'none'
         document.querySelector('.main-phone-number').style.display = 'block'
         gUserId = ans.userId
         gPhoneNumber = phoneNumber
         show('main-code-number')
-        const codeAudio = document.querySelector('.code-enter-audio').play()
+        document.querySelector('.code-enter-audio').play()
     } else {
         //TODO: create a div with err massage for incorrect phone number
         console.log("ans in error")
@@ -51,23 +54,28 @@ export async function onCodeEnter(ev) {
     if (ans.verification) {
         document.querySelector('.codeNumber').disabled = true
         document.querySelector('.code-lable').innerText = 'code number'
-        document.querySelector('.code-lable').style.fontSize = '20px'
+        document.querySelector('.code-lable').style.fontSize = '30px'
         document.querySelector('.code-btn').style.display = 'none'
         document.querySelector('.main-code-number').style.display = 'block'
         document.querySelector('.start-enrollment-btn').style.display = 'flex'
-    } else{
+        document.querySelector('.look-at-camera-audio').play()
+    } else {
         //TODO: create a div with err massage for incorrect phone code
         console.log('Incorrect Code')
     }
 }
 
 export async function onStartEnrollmentProccess() {
+    console.log("gUserId:", gUserId)
+    console.log("gGateId:", gGateId)
     var ans = await enrollmentService.startEnrollmentProccess(gUserId, gGateId)
     console.log(ans)// recive 'ok' if good
-    if (ans === 'ok'){
+    if (ans === 'ok') {
         document.querySelector('.start-enrollment-btn').style.display = 'none'
         document.querySelector('.main-animation').style.display = 'flex'
-        await enrollmentService.getStatus(gUserId,renderSuccess)
+        var audio = document.querySelector('.registration-success-audio')
+        await enrollmentService.getStatus(gUserId, audio, renderSuccess)
+        // await enrollmentService.getStatus(gUserId, renderSuccess)
     }
 }
 

@@ -22,21 +22,19 @@
     <main class="main">
         <h1>Registration</h1>
         <form class="main-phone-number" onsubmit="onPhoneEnter(event)">
-            <!-- <h3>Please enter your phone number</h3> -->
-            <audio class="phone-enter-audio" src="./assets/sound/phone-enter.ogg" allow="autoplay"></audio>
+            <audio class="phone-enter-audio" src="./assets/sound/enter-phone.ogg" allow="autoplay"></audio>
             <label class="phone-lable" for="phone">Please enter your phone number</label>
-            <input name="phoneNumber" class="phoneNumber" type="number" id="phone" placeholder="Enter phone number...">
+            <input name="phoneNumber" class="phoneNumber" type="number" id="phone" placeholder="Enter phone number..." autofocus>
             <button class="phone-btn">press to get your code</button>
-            <!-- <button onclick="onPhoneEnter(ev, phoneNumber)">Get your code</button> -->
         </form>
         <form class="main-code-number" onsubmit="onCodeEnter(event)">
-            <!-- <h3>Please enter your phone number</h3> -->
-            <audio class="code-enter-audio" src="./assets/sound/code-enter.ogg"></audio>
+            <audio class="code-enter-audio" src="./assets/sound/enter-code.ogg"></audio>
             <label class="code-lable" for="codeNumber">Please enter your code</label>
-            <input type="number" name="codeNumber" class="codeNumber" id="code" placeholder="Enter phone code...">
+            <input autofocus=false type="number" name="codeNumber" class="codeNumber" id="code" placeholder="Enter code...">
             <button class="code-btn">press to submit</button>
         </form>
         <button class="start-enrollment-btn" onclick="onStartEnrollmentProccess()">Start enrollment</button>
+        <audio class="look-at-camera-audio" src="./assets/sound/look-at-camera.ogg"></audio>
         <div class="loader">
             <div class="loader-wheel"></div>
             <div class="loader-text"></div>
@@ -46,6 +44,7 @@
             <img src="./assets/img/real-sense.jpeg">
         </div>
         <div class="status-modal">
+            <audio class="registration-success-audio" src="./assets/sound/registration-success.ogg"></audio>
             <div class="success-checkmark">
                 <div class="check-icon">
                   <span class="icon-line line-tip"></span>
